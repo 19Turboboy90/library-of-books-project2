@@ -8,12 +8,13 @@
 <div>
     <p th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}"></p>
     <hr>
-    <div th:if="${person.getBookList() == null}">
+    <div th:if="${person.getBookList().isEmpty()}">
         <p>Пользователь пока не взял ни одной книги.</p>
     </div>
-    <div th:unless="${person.getBookList() == null}">
+    <div th:if="${!person.getBookList().isEmpty()}">
         <p>Книги: </p>
         <div th:each="book : ${person.getBookList()}"
+             th:style="${book.isExpired() ? 'color: red' :  'color: black'}"
              th:text="${book.getTitle() + ', ' + book.getAuthor() + ',' + book.getYear()}">
         </div>
     </div>

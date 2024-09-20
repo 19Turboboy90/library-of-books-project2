@@ -6,20 +6,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.zharinov.dao.PersonDao;
-import ru.zharinov.models.Person;
+import ru.zharinov.entities.Person;
+import ru.zharinov.services.PeopleService;
 import ru.zharinov.util.PersonValidator;
 
 @Controller
 @RequestMapping("/people")
 @RequiredArgsConstructor
 public class PeopleController {
-    private final PersonDao personDao;
+    private final PeopleService peopleService;
     private final PersonValidator personValidator;
 
     @GetMapping()
     public String showPeople(Model model) {
-        model.addAttribute("people", personDao.getAllPeople());
+        model.addAttribute("people", peopleService.getAllPeople());
         return "people/show-people";
     }
 
@@ -34,25 +34,25 @@ public class PeopleController {
         if (bindingResult.hasErrors()) {
             return "people/new-person";
         }
-        personDao.savePerson(person);
+        peopleService.savePerson(person);
         return "redirect:/people";
     }
 
     @GetMapping("/{id}")
     public String infoPerson(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDao.getPersonById(id).get());
+        model.addAttribute("person", peopleService.getPersonById(id));
         return "people/show-person";
     }
 
     @DeleteMapping("/{id}")
     public String deletePerson(@PathVariable("id") int id) {
-        personDao.deletePersonById(id);
+        peopleService.deletePersonById(id);
         return "redirect:/people";
     }
 
     @GetMapping("/{id}/edit")
     public String editPerson(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", personDao.getPersonById(id).get());
+        model.addAttribute("person", peopleService.getPersonById(id));
         return "people/edit-person";
     }
 
@@ -63,7 +63,7 @@ public class PeopleController {
         if (bindingResult.hasErrors()) {
             return "people/edit-person";
         }
-        personDao.updatePersonById(id, person);
+        peopleService.updatePersonById(id, person);
         return "redirect:/people";
     }
 }

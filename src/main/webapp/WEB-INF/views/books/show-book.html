@@ -21,7 +21,7 @@
             <input type="submit" value="Назначить книгу">
         </form>
     </div>
-    <div th:unless="${book.getPerson() == null}">
+    <div th:if="${book.getPerson() != null}">
         <form th:method="PATCH" th:action="@{/books/{id}/remove-person(id=${book.getId()})}">
             <p>Книга сейчас у: </p>
             <div th:text="${book.getPerson().fullName}"></div>
