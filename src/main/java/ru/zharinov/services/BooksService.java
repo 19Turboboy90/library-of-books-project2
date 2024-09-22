@@ -10,6 +10,7 @@ import ru.zharinov.repositories.BooksRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -69,5 +70,9 @@ public class BooksService {
         book.setDateTimeAddedBook(null);
         book.setExpired(false);
         person.getBookList().remove(book);
+    }
+
+    public Optional<Book> getBookByTitle(String paramSearch) {
+        return booksRepository.findBookByTitleStartingWith(paramSearch);
     }
 }

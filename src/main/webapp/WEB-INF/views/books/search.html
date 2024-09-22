@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Страница поиска книги</title>
+</head>
+<body>
+<hr>
+<div th:if="${book!=null}">
+    <a th:href="@{/books/{id}(id=${book.id})}"
+       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">
+    </a>
+
+    <div th:if="${book.person!=null}">
+        <a th:href="@{/people/{id}(id=${book.getPerson().getId()})}"
+           th:text="${'Книга сейчас у: ' + book.getPerson().getFullName()}">
+        </a>
+    </div>
+    <div th:if="${book.person==null}" th:text="'Книга свободна'"></div>
+</div>
+<div th:if="${book==null}">
+    <p>Книга не найдена</p>
+</div>
+<br>
+<hr>
+<a href="/books">На главное меню</a>
+</body>
+</html>

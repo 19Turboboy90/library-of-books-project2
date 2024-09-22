@@ -78,4 +78,13 @@ public class BooksController {
         booksService.removePersonByBookId(id);
         return "redirect:/books/" + id;
     }
+
+    @GetMapping("/search")
+    public String searchBook(@RequestParam(value = "paramSearch") @Valid String paramSearch, Model model) {
+        if (paramSearch.isEmpty()) {
+            return "redirect:/books";
+        }
+        model.addAttribute("book", booksService.getBookByTitle(paramSearch));
+        return "books/search";
+    }
 }

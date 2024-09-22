@@ -12,6 +12,16 @@
 </div>
 <br/>
 <hr/>
+<div>
+    <form th:action="@{/books/search}" th:method="GET">
+        <label for="bookName">Введите название книги</label>
+        <input type="text" id="bookName" name="bookName">
+        <div style="color: red" th:if="${#fields.hasErrors('paramSearch')}">name error</div>
+        <input type="submit" value="Найти книгу">
+    </form>
+</div>
+<br/>
+<hr/>
 <a href="/books/new">Добавить книгу</a>
 </body>
 </html>
