@@ -1,6 +1,7 @@
 package ru.zharinov.controllers;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -80,7 +81,7 @@ public class BooksController {
     }
 
     @GetMapping("/search")
-    public String searchBook(@RequestParam(value = "paramSearch") @Valid String paramSearch, Model model) {
+    public String searchBook(@RequestParam(value = "paramSearch", required = false) String paramSearch, Model model) {
         if (paramSearch.isEmpty()) {
             return "redirect:/books";
         }

@@ -23,9 +23,9 @@ public class BookValidate implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        String string = (String) target;
-        if (booksService.getBookByTitle(string).isEmpty()) {
-            errors.rejectValue("paramSearch", "", "It shouldn't be empty");
-        }
+//        String string = (String) target;
+//        if (booksService.getBookByTitle(string).isEmpty()) {
+//            errors.rejectValue("paramSearch", "", "It shouldn't be empty");
+//        }
     }
 }

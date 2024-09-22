@@ -14,9 +14,8 @@
 <hr/>
 <div>
     <form th:action="@{/books/search}" th:method="GET">
-        <label for="bookName">Введите название книги</label>
-        <input type="text" id="bookName" name="bookName">
-        <div style="color: red" th:if="${#fields.hasErrors('paramSearch')}">name error</div>
+        <label for="paramSearch">Введите название книги</label>
+        <input type="text" id="paramSearch" name="paramSearch">
         <input type="submit" value="Найти книгу">
     </form>
 </div>

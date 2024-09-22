@@ -72,7 +72,7 @@ public class BooksService {
         person.getBookList().remove(book);
     }
 
-    public Optional<Book> getBookByTitle(String paramSearch) {
+    public Book getBookByTitle(String paramSearch) {
         return booksRepository.findBookByTitleStartingWith(paramSearch);
     }
 }
