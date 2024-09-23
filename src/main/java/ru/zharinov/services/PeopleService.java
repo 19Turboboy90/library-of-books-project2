@@ -32,7 +32,6 @@ public class PeopleService {
 
     public Person getPersonById(int id) {
         Optional<Person> person = peopleRepository.findById(id);
-
         person.ifPresent(value -> Hibernate.initialize(value.getBookList()));
         person.ifPresent(p -> p.getBookList().forEach(book -> {
             if (book.getDateTimeAddedBook().plusDays(10).isBefore(LocalDateTime.now())) {

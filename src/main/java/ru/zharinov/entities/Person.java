@@ -31,7 +31,7 @@ public class Person {
     @Column(name = "full_name")
     private String fullName;
 
-    @Min(value = 1900, message = "The year should be longer than 1990\n Год должен быть больше, чем 1990")
+    @Min(value = 1900, message = "The year should be longer than 1900\n Год должен быть больше, чем 1990")
     @Column(name = "year_of_birth")
     private int yearOfBirth;
 
