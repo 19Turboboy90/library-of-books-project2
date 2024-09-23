@@ -8,7 +8,6 @@ import ru.zharinov.entities.Person;
 import ru.zharinov.exceptions.MyException;
 import ru.zharinov.repositories.PeopleRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +50,8 @@ public class PeopleService {
 
     @Transactional
     public void updatePersonById(int id, Person person) {
-        Person personById = getPersonById(id);
-        personById.setFullName(person.getFullName());
-        personById.setYearOfBirth(person.getYearOfBirth());
+        person.setId(id);
+        peopleRepository.save(person);
     }
 
     @Transactional

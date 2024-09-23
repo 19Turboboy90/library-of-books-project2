@@ -5,24 +5,33 @@
     <title>Страница поиска книги</title>
 </head>
 <body>
-<hr>
-<div th:if="${book!=null}">
-    <a th:href="@{/books/{id}(id=${book.id})}"
-       th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">
-    </a>
-
-    <div th:if="${book.person!=null}">
-        <a th:href="@{/people/{id}(id=${book.getPerson().getId()})}"
-           th:text="${'Книга сейчас у: ' + book.getPerson().getFullName()}">
-        </a>
-    </div>
-    <div th:if="${book.person==null}" th:text="'Книга свободна'"></div>
+<div>
+    <form th:method="POST" th:action="@{/books/search}">
+        <label for="paramSearch">Введите название книги</label>
+        <input type="text" id="paramSearch" name="paramSearch">
+        <br>
+        <input type="submit" value="Найти книгу">
+    </form>
 </div>
-<div th:if="${book==null}">
+<hr>
+<div th:if="${!books.isEmpty()}">
+    <div th:each="book : ${books}">
+        <a th:href="@{/books/{id}(id=${book.id})}"
+           th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">
+        </a>
+        <div th:if="${book.person!=null}">
+            <a th:href="@{/people/{id}(id=${book.getPerson().getId()})}"
+               th:text="${'Книга сейчас у: ' + book.getPerson().getFullName()}">
+            </a>
+        </div>
+        <div th:if="${book.person==null}" th:text="'Книга свободна.'"></div>
+        <br>
+        <hr>
+    </div>
+</div>
+<div th:if="${books.isEmpty()}">
     <p>Книга не найдена</p>
 </div>
-<br>
-<hr>
-<a href="/books">На главное меню</a>
+<a href="/books?page=1">На главное меню</a>
 </body>
 </html>

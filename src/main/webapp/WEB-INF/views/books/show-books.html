@@ -5,22 +5,39 @@
     <title>Список книг</title>
 </head>
 <body>
+<div>
+
+</div>
 <div th:each="book : ${books}">
-    <a th:href="@{/books/{id}(id=${book.id})}"
+    <a th:href="@{/books/{id}(id=${book.getId()})}"
        th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}"
     ></a>
 </div>
 <br/>
 <hr/>
-<div>
-    <form th:action="@{/books/search}" th:method="GET">
-        <label for="paramSearch">Введите название книги</label>
-        <input type="text" id="paramSearch" name="paramSearch">
-        <input type="submit" value="Найти книгу">
-    </form>
-</div>
+<a href="/books/search">Поиск книг</a>
 <br/>
-<hr/>
 <a href="/books/new">Добавить книгу</a>
+<hr/>
+<div>
+    <div>
+        <p>Отсортированный список книг по году</p>
+        <a th:href="@{/books?page=1&sort_by_year=true}">1</a>
+        <a th:href="@{/books?page=2&sort_by_year=true}">2</a>
+        <a th:href="@{/books?page=3&sort_by_year=true}">3</a>
+        <a th:href="@{/books?page=4&sort_by_year=true}">4</a>
+        <a th:href="@{/books?page=5&sort_by_year=true}">5</a>
+    </div>
+    <div>
+        <p>Не отсортированный список книг по году</p>
+        <a th:href="@{/books?page=1&sort_by_year=false}">1</a>
+        <a th:href="@{/books?page=2&sort_by_year=false}">2</a>
+        <a th:href="@{/books?page=3&sort_by_year=false}">3</a>
+        <a th:href="@{/books?page=4&sort_by_year=false}">4</a>
+        <a th:href="@{/books?page=5&sort_by_year=false}">5</a>
+    </div>
+</div>
+
+
 </body>
 </html>

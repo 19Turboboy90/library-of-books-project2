@@ -1,6 +1,8 @@
 package ru.zharinov.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zharinov.entities.Book;
@@ -10,7 +12,6 @@ import ru.zharinov.repositories.BooksRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -24,8 +25,9 @@ public class BooksService {
         this.peopleService = peopleService;
     }
 
-    public List<Book> getAllBooks() {
-        return booksRepository.findAll();
+    public List<Book> getAllBooks(int page, int itemsPerPage, boolean isSort) {
+        return isSort ? booksRepository.findAll(PageRequest.of(page, itemsPerPage, Sort.by("year"))).getContent()
+                : booksRepository.findAll(PageRequest.of(page, itemsPerPage)).getContent();
     }
 
     public Book getBookById(int id) {
@@ -40,11 +42,9 @@ public class BooksService {
     @Transactional
     public void updateBookById(int id, Book book) {
         Book bookById = getBookById(id);
-        bookById.setTitle(book.getTitle());
-        bookById.setAuthor(book.getAuthor());
-        bookById.setYear(book.getYear());
-        bookById.setPerson(book.getPerson());
-        bookById.setDateTimeAddedBook(book.getDateTimeAddedBook());
+        book.setId(id);
+        book.setPerson(bookById.getPerson());
+        booksRepository.save(book);
     }
 
     @Transactional
@@ -72,7 +72,7 @@ public class BooksService {
         person.getBookList().remove(book);
     }
 
-    public Book getBookByTitle(String paramSearch) {
+    public List<Book> getBooksByTitle(String paramSearch) {
         return booksRepository.findBookByTitleStartingWith(paramSearch);
     }
 }

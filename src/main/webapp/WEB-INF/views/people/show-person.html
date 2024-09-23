@@ -24,9 +24,11 @@
 <div>
     <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Редактировать</a>
     <br>
+    <br>
     <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
         <input type="submit" value="Удалить">
     </form>
+    <br>
     <a href="/people">На главное меню</a>
 </div>
 </body>

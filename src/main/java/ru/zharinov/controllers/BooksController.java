@@ -1,7 +1,6 @@
 package ru.zharinov.controllers;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +10,7 @@ import ru.zharinov.entities.Book;
 import ru.zharinov.entities.Person;
 import ru.zharinov.services.BooksService;
 import ru.zharinov.services.PeopleService;
+import ru.zharinov.util.BookValidate;
 
 @Controller
 @RequestMapping("/books")
@@ -18,10 +18,16 @@ import ru.zharinov.services.PeopleService;
 public class BooksController {
     private final BooksService booksService;
     private final PeopleService peopleService;
+    private final BookValidate bookValidate;
 
-    @GetMapping
-    public String showAllBooks(Model model) {
-        model.addAttribute("books", booksService.getAllBooks());
+    @GetMapping()
+    public String showAllBooks(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                               @RequestParam(value = "books_per_page", defaultValue = "4", required = false)
+                               Integer booksPerPage,
+                               @RequestParam(value = "sort_by_year", defaultValue = "false", required = false)
+                               Boolean isSortByYear,
+                               Model model) {
+        model.addAttribute("books", booksService.getAllBooks(page - 1, booksPerPage, isSortByYear));
         return "books/show-books";
     }
 
@@ -81,11 +87,13 @@ public class BooksController {
     }
 
     @GetMapping("/search")
-    public String searchBook(@RequestParam(value = "paramSearch", required = false) String paramSearch, Model model) {
-        if (paramSearch.isEmpty()) {
-            return "redirect:/books";
-        }
-        model.addAttribute("book", booksService.getBookByTitle(paramSearch));
+    public String searchPage() {
+        return "books/search";
+    }
+
+    @PostMapping("/search")
+    public String searchBook(@RequestParam("paramSearch") String paramSearch, Model model) {
+        model.addAttribute("books", booksService.getBooksByTitle(paramSearch));
         return "books/search";
     }
 }
